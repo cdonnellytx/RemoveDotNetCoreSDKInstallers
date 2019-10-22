@@ -52,7 +52,7 @@ $Products | ForEach-Object {
     $Product = $_
     #Get all installed apps from Registry matching our product
     $DotNetCoreProduct = Get-ItemProperty 'HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\*'  |
-            Where-Object {$_.displayname -like $Product} |
+            Where-Object { try { $_.displayname -like $Product } catch { return $false } } |
             Select-Object DisplayName, DisplayVersion, UninstallString
 
     #Keep latest

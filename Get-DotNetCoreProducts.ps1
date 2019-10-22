@@ -11,7 +11,7 @@ $Products | ForEach-Object {
     $Product = $_
     #Get all installed apps from Registry matching .Net Core SDK
     Get-ItemProperty 'HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\*'  | 
-        Where-Object {$_.displayname -like $Product} | 
+        Where-Object { try { $_.displayname -like $Product } catch { $false } } |
         Sort-Object { [System.Version]::new($_.DisplayVersion)} -Descending | 
         Select-Object DisplayName, DisplayVersion, UninstallString 
 }
